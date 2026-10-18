@@ -1,0 +1,519 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap');
+
+/* ─── Variables ─────────────────────────────────────────── */
+:root {
+    --bg:        #0d0f14;
+    --surface:   #151820;
+    --surface2:  #1c2030;
+    --border:    rgba(255,255,255,0.07);
+    --accent:    #6c63ff;
+    --accent2:   #ff6584;
+    --found:     #22d3a5;
+    --lost:      #ff6584;
+    --text:      #e8eaf0;
+    --muted:     #6b7280;
+    --radius:    14px;
+    --shadow:    0 8px 32px rgba(0,0,0,0.45);
+}
+
+/* ─── Reset ──────────────────────────────────────────────── */
+*, *::before, *::after {
+    margin: 0; padding: 0;
+    box-sizing: border-box;
+}
+
+/* ─── Body ───────────────────────────────────────────────── */
+body {
+    font-family: 'DM Sans', sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.6;
+    background-image:
+        radial-gradient(ellipse 80% 60% at 20% -10%, rgba(108,99,255,0.15) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 90% 100%, rgba(255,101,132,0.1) 0%, transparent 55%);
+}
+
+/* ─── Navbar ─────────────────────────────────────────────── */
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    height: 64px;
+    background: rgba(13,15,20,0.85);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border-bottom: 1px solid var(--border);
+}
+
+.navbar .brand {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1.2rem;
+    color: var(--text);
+    text-decoration: none;
+    letter-spacing: -0.02em;
+}
+
+.navbar .brand span {
+    color: var(--accent);
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.navbar a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    padding: 7px 14px;
+    border-radius: 8px;
+    transition: color 0.2s, background 0.2s;
+    white-space: nowrap;
+}
+
+.navbar a:hover {
+    color: var(--text);
+    background: var(--surface2);
+}
+
+.navbar a.logout {
+    color: var(--accent2);
+    border: 1px solid rgba(255,101,132,0.25);
+    margin-left: 8px;
+}
+
+.navbar a.logout:hover {
+    background: rgba(255,101,132,0.1);
+    color: var(--accent2);
+}
+
+/* ─── Page Header ────────────────────────────────────────── */
+.page-header {
+    text-align: center;
+    padding: 56px 24px 32px;
+}
+
+h1, h2 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -0.03em;
+}
+
+h1 {
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    margin-bottom: 8px;
+}
+
+h2 {
+    font-size: clamp(1.3rem, 3vw, 1.8rem);
+    margin: 20px 0 16px;
+}
+
+.page-header p {
+    color: var(--muted);
+    font-size: 1rem;
+    max-width: 480px;
+    margin: 0 auto;
+}
+
+/* ─── Welcome greeting ───────────────────────────────────── */
+.welcome-text {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+    font-weight: 700;
+    text-align: center;
+    padding: 60px 24px 12px;
+    color: var(--text);
+    letter-spacing: -0.02em;
+}
+
+.welcome-text span {
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* ─── Quick-action cards on index ────────────────────────── */
+.action-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    max-width: 860px;
+    margin: 36px auto 60px;
+    padding: 0 24px;
+}
+
+.action-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px 20px;
+    text-align: center;
+    text-decoration: none;
+    color: var(--text);
+    transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.action-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent);
+    box-shadow: 0 0 24px rgba(108,99,255,0.2);
+}
+
+.action-card .icon {
+    font-size: 2rem;
+}
+
+.action-card .label {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+}
+
+.action-card .desc {
+    font-size: 0.8rem;
+    color: var(--muted);
+}
+
+/* ─── Form ───────────────────────────────────────────────── */
+form {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    max-width: 440px;
+    margin: 40px auto;
+    padding: 36px 32px;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+label {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--muted);
+    margin-bottom: 5px;
+    margin-top: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 11px 14px;
+    margin-bottom: 4px;
+    border-radius: 9px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(108,99,255,0.18);
+}
+
+input::placeholder, textarea::placeholder {
+    color: var(--muted);
+    opacity: 0.6;
+}
+
+select option {
+    background: var(--surface2);
+}
+
+input[type="submit"],
+button[type="submit"] {
+    background: var(--accent);
+    color: white;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    border: none;
+    margin-top: 22px;
+    padding: 13px;
+    border-radius: 10px;
+    transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+    width: 100%;
+}
+
+input[type="submit"]:hover,
+button[type="submit"]:hover {
+    background: #7c75ff;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(108,99,255,0.4);
+}
+
+.form-footer {
+    text-align: center;
+    margin-top: 18px;
+    font-size: 0.875rem;
+    color: var(--muted);
+}
+
+.form-footer a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.form-footer a:hover {
+    text-decoration: underline;
+}
+
+/* ─── Item Cards ─────────────────────────────────────────── */
+.container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px 28px 60px;
+}
+
+.card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+    display: flex;
+    flex-direction: column;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.5);
+    border-color: rgba(108,99,255,0.35);
+}
+
+/* Image */
+.card img {
+    width: 100%;
+    height: 170px;
+    object-fit: cover;
+    display: block;
+}
+
+.card-body {
+    padding: 16px 18px 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.card-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--text);
+}
+
+.card-desc {
+    font-size: 0.875rem;
+    color: var(--muted);
+    flex: 1;
+}
+
+.card-meta {
+    font-size: 0.78rem;
+    color: var(--muted);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+/* Type tag */
+.type {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    width: fit-content;
+}
+
+.type.lost {
+    background: rgba(255,101,132,0.15);
+    color: var(--lost);
+    border: 1px solid rgba(255,101,132,0.25);
+}
+
+.type.found {
+    background: rgba(34,211,165,0.12);
+    color: var(--found);
+    border: 1px solid rgba(34,211,165,0.22);
+}
+
+/* Button (WhatsApp / contact) */
+button, .btn {
+    background: var(--accent);
+    color: white;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 9px;
+    cursor: pointer;
+    width: 100%;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: background 0.2s, transform 0.15s;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    margin-top: 4px;
+}
+
+button:hover, .btn:hover {
+    background: #7c75ff;
+    transform: translateY(-1px);
+}
+
+button.whatsapp, .btn.whatsapp {
+    background: #25d366;
+}
+
+button.whatsapp:hover, .btn.whatsapp:hover {
+    background: #20bd5a;
+}
+
+button.danger, .btn.danger {
+    background: rgba(255,101,132,0.15);
+    color: var(--lost);
+    border: 1px solid rgba(255,101,132,0.3);
+}
+
+button.danger:hover, .btn.danger:hover {
+    background: rgba(255,101,132,0.28);
+    transform: translateY(-1px);
+}
+
+/* ─── No-image placeholder ───────────────────────────────── */
+.no-image {
+    background: var(--surface2);
+    height: 170px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    color: var(--muted);
+}
+
+/* ─── Search bar ─────────────────────────────────────────── */
+.search-wrap {
+    max-width: 520px;
+    margin: 32px auto 8px;
+    padding: 0 24px;
+    display: flex;
+    gap: 10px;
+}
+
+.search-wrap input {
+    flex: 1;
+    margin: 0;
+}
+
+.search-wrap button {
+    width: auto;
+    padding: 11px 20px;
+    margin-top: 0;
+    border-radius: 9px;
+    flex-shrink: 0;
+}
+
+/* ─── Empty state ────────────────────────────────────────── */
+.empty {
+    text-align: center;
+    padding: 72px 24px;
+    color: var(--muted);
+}
+
+.empty .empty-icon {
+    font-size: 3.5rem;
+    margin-bottom: 16px;
+    opacity: 0.5;
+}
+
+/* ─── Flash messages ─────────────────────────────────────── */
+.alert {
+    max-width: 500px;
+    margin: 16px auto 0;
+    padding: 13px 18px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-align: center;
+}
+
+.alert.success {
+    background: rgba(34,211,165,0.12);
+    color: var(--found);
+    border: 1px solid rgba(34,211,165,0.25);
+}
+
+.alert.error {
+    background: rgba(255,101,132,0.12);
+    color: var(--lost);
+    border: 1px solid rgba(255,101,132,0.25);
+}
+
+/* ─── Divider ────────────────────────────────────────────── */
+.divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 28px 0;
+}
+
+/* ─── Responsive ─────────────────────────────────────────── */
+@media (max-width: 640px) {
+    .navbar {
+        padding: 0 20px;
+        flex-direction: column;
+        height: auto;
+        padding-block: 12px;
+        gap: 10px;
+    }
+
+    .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    form {
+        margin: 24px 16px;
+        padding: 24px 20px;
+    }
+
+    .container {
+        padding: 16px 16px 48px;
+    }
+
+    .action-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}

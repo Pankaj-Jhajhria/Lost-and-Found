@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Report Found Item – Lost & Found</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .page-icon { font-size:2.5rem; margin-bottom:12px; display:block; }
+        .page-header { padding-top: 48px; }
+        .page-header h1 { font-size: clamp(1.6rem,3.5vw,2.4rem); }
+        .page-header h1 span {
+            background: linear-gradient(120deg, var(--found), #38bdf8);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        form { margin-top: 8px; }
+        .file-hint { font-size: 0.75rem; color: var(--muted); margin-top: 4px; margin-bottom: 12px; }
+        input[type="file"] { padding: 10px 14px; cursor: pointer; }
+        input[type="file"]::-webkit-file-upload-button {
+            background: var(--surface2); color: var(--muted); border: 1px solid var(--border);
+            padding: 5px 12px; border-radius: 6px; cursor: pointer; font-size: 0.8rem;
+            margin-right: 10px; transition: background .2s;
+        }
+        input[type="file"]::-webkit-file-upload-button:hover { background: var(--found); color: #0d0f14; }
+        input[type="submit"] { background: var(--found); }
+        input[type="submit"]:hover { background: #1db88f; box-shadow: 0 6px 20px rgba(34,211,165,0.35); }
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <a href="index.php" class="brand">Lost<span>&</span>Found</a>
+    <div class="nav-links">
+        <a href="lost.html">Report Lost</a>
+        <a href="found.html" style="color:var(--found)">Report Found</a>
+        <a href="view.php">View Items</a>
+        <a href="search.php">Search</a>
+        <a href="logout.php" class="logout">Logout</a>
+    </div>
+</nav>
+
+<div class="page-header">
+    <span class="page-icon">🟢</span>
+    <h1>Report a <span>Found Item</span></h1>
+    <p>Help reunite this item with its owner.</p>
+</div>
+
+<form action="found.php" method="POST" enctype="multipart/form-data">
+    <label for="item">Item Name</label>
+    <input type="text" id="item" name="item" placeholder="e.g. Blue backpack, car keys" required>
+
+    <label for="desc">Description</label>
+    <textarea id="desc" name="desc" rows="3" placeholder="Colour, brand, any markings..." required></textarea>
+
+    <label for="loc">Where You Found It</label>
+    <input type="text" id="loc" name="loc" placeholder="e.g. Near main gate, Parking lot A" required>
+
+    <label for="img">Upload Photo</label>
+    <input type="file" id="img" name="img" accept="image/*" required>
+    <div class="file-hint">JPG, PNG, WEBP — max 5MB</div>
+
+    <input type="submit" value="Submit Found Item →">
+
+    <div class="form-footer"><a href="index.php">← Back to Dashboard</a></div>
+</form>
+
+</body>
+</html>

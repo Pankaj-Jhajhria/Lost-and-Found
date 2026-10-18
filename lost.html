@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Report Lost Item – Lost & Found</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .page-icon { font-size:2.5rem; margin-bottom:12px; display:block; }
+        .page-header { padding-top: 48px; }
+        .page-header h1 { font-size: clamp(1.6rem,3.5vw,2.4rem); }
+        .page-header h1 span {
+            background: linear-gradient(120deg, var(--lost), var(--accent2));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        form { margin-top: 8px; }
+        .field { margin-bottom: 4px; }
+        .file-hint { font-size: 0.75rem; color: var(--muted); margin-top: 4px; margin-bottom: 12px; }
+        input[type="file"] { padding: 10px 14px; cursor: pointer; }
+        input[type="file"]::-webkit-file-upload-button {
+            background: var(--surface2); color: var(--muted); border: 1px solid var(--border);
+            padding: 5px 12px; border-radius: 6px; cursor: pointer; font-size: 0.8rem;
+            margin-right: 10px; transition: background .2s;
+        }
+        input[type="file"]::-webkit-file-upload-button:hover { background: var(--accent); color: white; }
+    </style>
+</head>
+<body>
+
+<nav class="navbar">
+    <a href="index.php" class="brand">Lost<span>&</span>Found</a>
+    <div class="nav-links">
+        <a href="lost.html" style="color:var(--lost)">Report Lost</a>
+        <a href="found.html">Report Found</a>
+        <a href="view.php">View Items</a>
+        <a href="search.php">Search</a>
+        <a href="logout.php" class="logout">Logout</a>
+    </div>
+</nav>
+
+<div class="page-header">
+    <span class="page-icon">🔴</span>
+    <h1>Report a <span>Lost Item</span></h1>
+    <p>Fill in the details and we'll help others identify your item.</p>
+</div>
+
+<form action="lost.php" method="POST" enctype="multipart/form-data">
+    <label for="item">Item Name</label>
+    <input type="text" id="item" name="item" placeholder="e.g. Black wallet, iPhone 14" required>
+
+    <label for="desc">Description</label>
+    <textarea id="desc" name="desc" rows="3" placeholder="Colour, brand, distinguishing features..." required></textarea>
+
+    <label for="loc">Last Seen Location</label>
+    <input type="text" id="loc" name="loc" placeholder="e.g. Library, Block B canteen" required>
+
+    <label for="img">Upload Photo</label>
+    <input type="file" id="img" name="img" accept="image/*" required>
+    <div class="file-hint">JPG, PNG, WEBP — max 5MB</div>
+
+    <input type="submit" value="Submit Lost Item →">
+
+    <div class="form-footer"><a href="index.php">← Back to Dashboard</a></div>
+</form>
+
+</body>
+</html>
