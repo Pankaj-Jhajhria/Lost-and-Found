@@ -6,25 +6,33 @@ if(!isset($_SESSION['user'])){
     exit();
 }
 
-include "db.php";
-
-$email = $_SESSION['user'];
-$user  = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM users WHERE email='$email'"));
-$phone = $user['phone'];
+require_once "db.php";
+require_once "upload_helper.php";
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
-    $item = mysqli_real_escape_string($conn, $_POST['item']);
-    $desc = mysqli_real_escape_string($conn, $_POST['desc']);
-    $loc  = mysqli_real_escape_string($conn, $_POST['loc']);
+    // Reporter's phone number comes from their account (the admin has no account row).
+    $email = $_SESSION['user'];
+    $stmt  = mysqli_prepare($conn, "SELECT phone FROM users WHERE email = ?");
+    mysqli_stmt_bind_param($stmt, "s", $email);
+    mysqli_stmt_execute($stmt);
+    $user  = mysqli_fetch_assoc(mysqli_stmt_get_result($stmt));
+    mysqli_stmt_close($stmt);
+    $phone = $user['phone'] ?? '';
 
-    $img_name = basename($_FILES['img']['name']);
-    $tmp      = $_FILES['img']['tmp_name'];
+    $item = mb_substr(trim($_POST['item'] ?? ''), 0, 255);
+    $desc = trim($_POST['desc'] ?? '');
+    $loc  = mb_substr(trim($_POST['loc'] ?? ''), 0, 255);
 
-    if(!is_dir("images")) mkdir("images", 0755, true);
-    move_uploaded_file($tmp, "images/" . $img_name);
+    list($image, $error) = save_uploaded_image($_FILES['img'] ?? null);
+    if($error !== null){
+        upload_error_exit($error, "lost.html");
+    }
 
-    mysqli_query($conn, "INSERT INTO items(type,item_name,description,location,image,phone)
-    VALUES('lost','$item','$desc','$loc','images/$img_name','$phone')");
+    $type = 'lost';
+    $stmt = mysqli_prepare($conn, "INSERT INTO items(type,item_name,description,location,image,phone) VALUES(?,?,?,?,?,?)");
+    mysqli_stmt_bind_param($stmt, "ssssss", $type, $item, $desc, $loc, $image, $phone);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_close($stmt);
 
     header("Location: view.php?success=lost");
     exit();

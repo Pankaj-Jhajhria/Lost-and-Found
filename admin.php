@@ -6,6 +6,10 @@ if(!isset($_SESSION['admin'])){
 }
 include "db.php";
 
+if(empty($_SESSION['csrf_token'])){
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
 $result = mysqli_query($conn, "SELECT * FROM items ORDER BY id DESC");
 $total  = mysqli_num_rows($result);
 $lost   = mysqli_num_rows(mysqli_query($conn, "SELECT id FROM items WHERE type='lost'"));
@@ -110,9 +114,11 @@ $found  = mysqli_num_rows(mysqli_query($conn, "SELECT id FROM items WHERE type='
             <td><?php echo htmlspecialchars($row['location']); ?></td>
             <td><?php echo htmlspecialchars($row['phone']); ?></td>
             <td>
-                <a href="delete.php?id=<?php echo $row['id']; ?>" onclick="return confirm('Delete this item?')">
-                    <button class="del-btn">🗑 Delete</button>
-                </a>
+                <form method="POST" action="delete.php" style="display:inline" onsubmit="return confirm('Delete this item?')">
+                    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($_SESSION['csrf_token']); ?>">
+                    <input type="hidden" name="id" value="<?php echo (int) $row['id']; ?>">
+                    <button type="submit" class="del-btn">🗑 Delete</button>
+                </form>
             </td>
         </tr>
         <?php endwhile; ?>

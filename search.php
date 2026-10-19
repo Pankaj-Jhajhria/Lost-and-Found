@@ -45,8 +45,11 @@ include "db.php";
 
 <?php if(isset($_GET['search']) && trim($_GET['search']) !== ''): ?>
 <?php
-$search = mysqli_real_escape_string($conn, $_GET['search']);
-$result = mysqli_query($conn, "SELECT * FROM items WHERE item_name LIKE '%$search%' OR description LIKE '%$search%' ORDER BY id DESC");
+$like   = '%' . addcslashes(trim($_GET['search']), '%_\\') . '%';
+$stmt   = mysqli_prepare($conn, "SELECT * FROM items WHERE item_name LIKE ? OR description LIKE ? ORDER BY id DESC");
+mysqli_stmt_bind_param($stmt, "ss", $like, $like);
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
 $num    = mysqli_num_rows($result);
 ?>
 <p style="text-align:center; color:var(--muted); font-size:.875rem; margin-bottom:8px;">
